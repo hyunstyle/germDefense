@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myFirstCommit.Plugins", "myFirstCommit.Plugins.csproj", "{FA7CF707-B315-8E6C-2E70-4BC7C669014F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myFirstCommit", "myFirstCommit.csproj", "{6A1EB580-CD41-2186-D14B-67D474105E99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA7CF707-B315-8E6C-2E70-4BC7C669014F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA7CF707-B315-8E6C-2E70-4BC7C669014F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA7CF707-B315-8E6C-2E70-4BC7C669014F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA7CF707-B315-8E6C-2E70-4BC7C669014F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A1EB580-CD41-2186-D14B-67D474105E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A1EB580-CD41-2186-D14B-67D474105E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A1EB580-CD41-2186-D14B-67D474105E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A1EB580-CD41-2186-D14B-67D474105E99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
