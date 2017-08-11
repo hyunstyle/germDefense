@@ -50,6 +50,9 @@ public class lifeController : MonoBehaviour
     public GameObject slideDown;
     public GameObject slideUp;
 
+    // 점수 올라가는 effect
+    public ParticleSystem plusEffect;
+
     private void Awake()
     {
         
@@ -115,7 +118,7 @@ public class lifeController : MonoBehaviour
         }
 
         if(isCleared)
-        {
+        {   
             StartCoroutine(nextLevel());
             //StartCoroutine(DoFade());
             isCleared = false;

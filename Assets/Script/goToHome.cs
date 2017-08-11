@@ -31,6 +31,7 @@ public class goToHome : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+
         // 현재 Scene의 index 저장
         currentNum = SceneManager.GetActiveScene().buildIndex;
 
@@ -125,7 +126,6 @@ public class goToHome : MonoBehaviour
         }
     }
 
-
     IEnumerator triggerExitAgain()
     {
         yield return new WaitForSeconds(0.5f);
@@ -157,6 +157,7 @@ public class goToHome : MonoBehaviour
             {
                 lifeController.Instance.remainedGermNumber++;
                 lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
+                lifeController.Instance.plusEffect.Emit(1);
 
                 if (changedMonster != null)
                 {
@@ -170,8 +171,9 @@ public class goToHome : MonoBehaviour
             {
                 lifeController.Instance.remainedGermNumber++;
                 lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
+                lifeController.Instance.plusEffect.Emit(1);
 
-                if(changedMonster != null)
+                if (changedMonster != null)
                 {
                     //Debug.Log("실행해라");
                     Destroy(changedMonster);

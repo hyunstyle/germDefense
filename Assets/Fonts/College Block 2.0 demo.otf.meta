@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 125cc64a346a2b04cb6c3a9c39474962
+timeCreated: 1502278896
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: College Block 2.0
+  fontNames:
+  - College Block 2.0
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
