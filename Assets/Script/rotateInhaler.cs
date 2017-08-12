@@ -377,13 +377,17 @@ public class rotateInhaler : MonoBehaviour
         //inhaler.transform.position = this.transform.position;
         //inhaler.transform.localScale = this.transform.localScale;
 
-        currentInhaler = this.gameObject;
-        this.transform.GetComponent<SpriteRenderer>().color = Color.green;
-        //inhaler_off.SetActive(false);
-        Debug.Log("켜짐");
-        isRotating = true;
-
         
+        currentInhaler = this.gameObject;
+        if (currentInhaler.transform.GetComponent<SpriteRenderer>().color == normalColor)
+        {
+            this.transform.GetComponent<SpriteRenderer>().color = Color.green;
+            //inhaler_off.SetActive(false);
+            Debug.Log("켜짐");
+            isRotating = true;
+        }
+
+
     }
 
     private void OnMouseUp()

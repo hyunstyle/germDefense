@@ -44,7 +44,7 @@ public class lifeController : MonoBehaviour
     public int[] stage;
      
     // 현재 Scene의 index
-    private int currentNum;
+    public int currentNum;
 
     // 슬라이드 효과 애니메이션
     public GameObject slideDown;
@@ -63,8 +63,8 @@ public class lifeController : MonoBehaviour
     {
         // 각 stage별 목표치
         stage = new int[5];
-        stage[0] = 0;
-        stage[1] = 1;
+        stage[0] = 10;
+        stage[1] = 10;
         stage[2] = 10;
         stage[3] = 20;
         stage[4] = 30;
@@ -76,7 +76,7 @@ public class lifeController : MonoBehaviour
         //Debug.Log("current goal: " + stage[currentNum]);
 
         // stage별 점수 초기화
-        remainedGermNumber = stage[currentNum - 1];
+        //remainedGermNumber = stage[currentNum - 1];
         remainedGerm.text = remainedGermNumber.ToString();
 
         isGameOver = false;

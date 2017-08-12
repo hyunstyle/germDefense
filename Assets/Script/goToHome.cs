@@ -16,7 +16,7 @@ public class goToHome : MonoBehaviour
     private bool isScoreDecreased;
 
     private Scene currentScene;
-    private float currentSpeed;
+    public float currentSpeed;
 
     public ParticleSystem clearEffect;
 
@@ -25,8 +25,13 @@ public class goToHome : MonoBehaviour
 
     private GameObject changedMonster;
 
+    public GameObject forDistanceMeasurementInhaler;
+
     // 현재 Scene의 index
     private int currentNum;
+
+    // 씬 타임. 5탄에서 속도 조정하기 위한 변수
+    private float sceneTime;
 
     // Use this for initialization
     void Start ()
@@ -37,32 +42,39 @@ public class goToHome : MonoBehaviour
 
         currentScene = SceneManager.GetActiveScene();
 
+        sceneTime = 0;
+
         string sceneName = currentScene.name;
 
         if (sceneName.Contains("1")) // stage 1
         {
             currentSpeed = 10f;
             iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("2")) // stage 2
         {
             currentSpeed = 15f;
             iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("3")) // stage 3
         {
             currentSpeed = 20f;
             iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("4")) // stage 4
         {
             currentSpeed = 25f;
             iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("5")) // stage 5
         {
             currentSpeed = 30f;
-            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", speedController.Instance.speed));
+            forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         //iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", 10f));
         isInhaled = false;
@@ -77,10 +89,23 @@ public class goToHome : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if(isEnteredInBorder)
-        {
 
+        if (forDistanceMeasurementInhaler != null && !isEnteredInBorder && !isInhaled && 
+            Vector2.Distance(Vector2.zero, new Vector2(forDistanceMeasurementInhaler.transform.position.x, forDistanceMeasurementInhaler.transform.position.y))
+            > Vector2.Distance(Vector2.zero, new Vector2(this.transform.position.x, this.transform.position.y)))
+        {
+            Debug.Log("good");
+            changedMonster = Instantiate(monster_in);
+            changedMonster.transform.position = this.transform.position;
+            changedMonster.transform.parent = this.transform.parent;
+            //changedMonster.transform.localScale = this.transform.localScale * 5;
+            this.transform.localScale = this.transform.localScale / 5;
+
+            iTween.MoveTo(changedMonster, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            isEnteredInBorder = true;
         }
+
+        
 
         if(isInhaled)
         {
@@ -98,9 +123,9 @@ public class goToHome : MonoBehaviour
             {
                 if (changedMonster != null)
                 {
-                    Destroy(changedMonster.gameObject, 1f);
+                    Destroy(changedMonster.gameObject, 0.5f);
                 }
-                Destroy(this.gameObject, 1f);
+                Destroy(this.gameObject, 0.5f);
 
                 isDestroyCalled = true;
             }
@@ -110,19 +135,13 @@ public class goToHome : MonoBehaviour
         }
 	}
 
-    /*ivate void OnTriggerStay2D(Collider2D collision)
-    {
-        if(collision.tag == "inhaler")
-        {
-            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", inhaler.transform.position.x, "y", inhaler.transform.position.y, "easeType", iTween.EaseType.linear, "speed", 20f));
-        }
-    }*/
+    
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.tag == "realCollider")
         {
-            StartCoroutine(triggerExitAgain());
+            //StartCoroutine(triggerExitAgain());
         }
     }
 
@@ -167,11 +186,15 @@ public class goToHome : MonoBehaviour
             }
 
             // 현재 stage의 목표치보다 적을 경우 score++
-            else if (!isScoreDecreased && lifeController.Instance.remainedGermNumber < lifeController.Instance.stage[currentNum])
+            else if (!isScoreDecreased && lifeController.Instance.remainedGermNumber < lifeController.Instance.stage[currentNum - 1])
             {
-                lifeController.Instance.remainedGermNumber++;
+                if (!isEnteredInBorder)
+                {
+                    lifeController.Instance.remainedGermNumber++;
+                    lifeController.Instance.plusEffect.Emit(1);
+                }
                 lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
-                lifeController.Instance.plusEffect.Emit(1);
+                
 
                 if (changedMonster != null)
                 {
@@ -181,39 +204,15 @@ public class goToHome : MonoBehaviour
             }
             
             // stage의 목표치를 달성했을 경우
-            if (lifeController.Instance.life > 0 && lifeController.Instance.remainedGermNumber >= lifeController.Instance.stage[currentNum])
+            if (lifeController.Instance.life > 0 && lifeController.Instance.remainedGermNumber >= lifeController.Instance.stage[currentNum - 1])
             {
-                Debug.Log("current goal: " + lifeController.Instance.stage[currentNum]);
+                Debug.Log("current goal: " + lifeController.Instance.stage[currentNum - 1]);
                 
                 // 슬라이드를 닫음
                 lifeController.Instance.slideDown.SetActive(true);
                 lifeController.Instance.isCleared = true;
 
-                //StartCoroutine(nextLevel());
-                /*Scene currentScene = SceneManager.GetActiveScene();
-
-                string sceneName = currentScene.name;
-
-                if (sceneName.Contains("1"))
-                {
-                    SceneManager.LoadScene(1);
-                }
-                else if (sceneName.Contains("2"))
-                {
-                    SceneManager.LoadScene(2);
-                }
-                else if (sceneName.Contains("3"))
-                {
-                    SceneManager.LoadScene(3);
-                }
-                else if (sceneName.Contains("4"))
-                {
-                    SceneManager.LoadScene(4);
-                }
-                else if (sceneName.Contains("5"))
-                {
-
-                }*/
+                
             }
 
             if (rotateInhaler.isRotating && inhaler.gameObject == rotateInhaler.currentInhaler.gameObject)
@@ -229,7 +228,7 @@ public class goToHome : MonoBehaviour
         }
         catch(System.Exception e)
         {
-            
+            //Debug.Log("DD?");
         }
     }
 
@@ -276,33 +275,23 @@ public class goToHome : MonoBehaviour
             this.transform.localScale = this.transform.localScale / 5;
             
             iTween.MoveTo(changedMonster, iTween.Hash("x", inhaler.transform.position.x, "y", inhaler.transform.position.y, "easeType", iTween.EaseType.linear, "speed", 20f));
-            //rotateInhaler.Instance.GetComponent<SpriteRenderer>().color = Color.red;
-            //Debug.Log("풍혈 포지션 : " + inhalerPosition);
-
-
-
-            //this.transform.RotateAround(inhaler.transform.localPosition, Vector3.forward, 90f * Time.deltaTime);
-            //iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", border.transform.position.x, "y", border.transform.position.y, "easeType", iTween.EaseType.linear, "speed", 15f));
-
-            isInhaled = true;
-
             
-
+            isInhaled = true;
 
         }
         else if (border.tag == "border" && !isInhaled && !isEnteredInBorder) 
         {
             
-            changedMonster = Instantiate(monster_in);
-            changedMonster.transform.position = this.transform.position;
-            changedMonster.transform.parent = this.transform.parent;
-            //changedMonster.transform.localScale = this.transform.localScale * 5;
-            this.transform.localScale = this.transform.localScale / 5;
+            //changedMonster = Instantiate(monster_in);
+            //changedMonster.transform.position = this.transform.position;
+            //changedMonster.transform.parent = this.transform.parent;
+            ////changedMonster.transform.localScale = this.transform.localScale * 5;
+            //this.transform.localScale = this.transform.localScale / 5;
             
-            iTween.MoveTo(changedMonster, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
-            //this.gameObject.SetActive(false);
-            //Debug.Log("결계 안에 진입");
-            isEnteredInBorder = true;
+            //iTween.MoveTo(changedMonster, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            ////this.gameObject.SetActive(false);
+            ////Debug.Log("결계 안에 진입");
+            //isEnteredInBorder = true;
         }
     }
 
