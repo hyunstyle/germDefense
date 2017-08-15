@@ -33,6 +33,8 @@ public class goToHome : MonoBehaviour
     // 씬 타임. 5탄에서 속도 조정하기 위한 변수
     private float sceneTime;
 
+    public GameObject speedDownEffectPrefab;
+
     // Use this for initialization
     void Start ()
     {
@@ -49,25 +51,25 @@ public class goToHome : MonoBehaviour
         if (sceneName.Contains("1")) // stage 1
         {
             currentSpeed = 10f;
-            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", speedController.Instance.speed));
             forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("2")) // stage 2
         {
             currentSpeed = 15f;
-            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", speedController.Instance.speed));
             forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("3")) // stage 3
         {
             currentSpeed = 20f;
-            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", speedController.Instance.speed));
             forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("4")) // stage 4
         {
             currentSpeed = 25f;
-            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", currentSpeed));
+            iTween.MoveTo(this.transform.gameObject, iTween.Hash("x", 0, "y", 0, "easeType", iTween.EaseType.linear, "speed", speedController.Instance.speed));
             forDistanceMeasurementInhaler = GameObject.FindGameObjectWithTag("inhaler");
         }
         else if (sceneName.Contains("5")) // stage 5
@@ -94,7 +96,7 @@ public class goToHome : MonoBehaviour
             Vector2.Distance(Vector2.zero, new Vector2(forDistanceMeasurementInhaler.transform.position.x, forDistanceMeasurementInhaler.transform.position.y))
             > Vector2.Distance(Vector2.zero, new Vector2(this.transform.position.x, this.transform.position.y)))
         {
-            Debug.Log("good");
+            //Debug.Log("good");
             changedMonster = Instantiate(monster_in);
             changedMonster.transform.position = this.transform.position;
             changedMonster.transform.parent = this.transform.parent;
@@ -174,9 +176,19 @@ public class goToHome : MonoBehaviour
             // stage가 마지막 stage일 경우 점수는 무한대까지 증가
             if (!isScoreDecreased && currentNum >= 5)
             {
-                lifeController.Instance.remainedGermNumber++;
-                lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
-                lifeController.Instance.plusEffect.Emit(1);
+                if (this.gameObject.tag == "tornadomon")
+                {
+                    lifeController.Instance.remainedGermNumber += 5;
+                    lifeController.Instance.plusEffect.Emit(5);
+                }
+                else
+                {
+                    lifeController.Instance.remainedGermNumber++;
+                    //lifeController.Instance.amt.enabled = true;
+                    //lifeController.Instance.amt.Play("scoreAnimation");
+                    lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
+                    lifeController.Instance.plusEffect.Emit(1);
+                }
 
                 if (changedMonster != null)
                 {
@@ -190,8 +202,18 @@ public class goToHome : MonoBehaviour
             {
                 if (!isEnteredInBorder)
                 {
-                    lifeController.Instance.remainedGermNumber++;
-                    lifeController.Instance.plusEffect.Emit(1);
+                    if (this.gameObject.tag == "tornadomon")
+                    {
+                        lifeController.Instance.remainedGermNumber += 5;
+                        lifeController.Instance.plusEffect.Emit(5);
+                    }
+                    else
+                    {
+                        lifeController.Instance.remainedGermNumber++;
+                        //lifeController.Instance.amt.enabled = true;
+                        //lifeController.Instance.amt.Play("scoreAnimation");
+                        lifeController.Instance.plusEffect.Emit(1);
+                    }
                 }
                 lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
                 
@@ -206,7 +228,7 @@ public class goToHome : MonoBehaviour
             // stage의 목표치를 달성했을 경우
             if (lifeController.Instance.life > 0 && lifeController.Instance.remainedGermNumber >= lifeController.Instance.stage[currentNum - 1])
             {
-                Debug.Log("current goal: " + lifeController.Instance.stage[currentNum - 1]);
+                //Debug.Log("current goal: " + lifeController.Instance.stage[currentNum - 1]);
                 
                 // 슬라이드를 닫음
                 lifeController.Instance.slideDown.SetActive(true);
@@ -267,7 +289,8 @@ public class goToHome : MonoBehaviour
 
             inhaler.GetComponent<SpriteRenderer>().color = Color.red;
 
-           
+            
+
             changedMonster = Instantiate(monster_catched);
             changedMonster.transform.position = this.transform.position;
             changedMonster.transform.parent = this.transform.parent;
@@ -277,6 +300,65 @@ public class goToHome : MonoBehaviour
             iTween.MoveTo(changedMonster, iTween.Hash("x", inhaler.transform.position.x, "y", inhaler.transform.position.y, "easeType", iTween.EaseType.linear, "speed", 20f));
             
             isInhaled = true;
+
+            if(this.gameObject.tag == "goldmon")
+            {
+                switch(currentNum)
+                {
+                    case 1:
+                        if(speedController.Instance.speed >= 15f)
+                        {
+                            speedController.Instance.speed -= 5f;
+                        }
+                        break;
+                    case 2:
+                        if (speedController.Instance.speed >= 20f)
+                        {
+                            speedController.Instance.speed -= 5f;
+                        }
+                        break;
+                    case 3:
+                        if (speedController.Instance.speed >= 25f)
+                        {
+                            speedController.Instance.speed -= 5f;
+                        }
+                        break;
+                    case 4:
+                        if (speedController.Instance.speed >= 30f)
+                        {
+                            speedController.Instance.speed -= 5f;
+                        }
+                        break;
+                    case 5:
+                        if (speedController.Instance.speed >= 35f)
+                        {
+                            speedController.Instance.speed -= 5f;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                
+
+                
+                    //TODO
+                GameObject speedDownEffect = Instantiate(speedDownEffectPrefab);
+                speedDownEffect.transform.position = this.transform.position;
+                Destroy(speedDownEffect, 1f);
+                Debug.Log("Good");
+               
+                //speedDownEffect.gameObject.transform.position = this.transform.position;
+                //speedDownEffect.gameObject.SetActive(true);
+                //StartCoroutine(wait1second());
+
+            }
+            else if(this.gameObject.tag == "packmon")
+            {
+                //int life = ++lifeController.Instance.life;
+                if(lifeController.Instance.life < 10)
+                    lifeController.Instance.healthBar[lifeController.Instance.life++].SetActive(true);
+            }
+            
 
         }
         else if (border.tag == "border" && !isInhaled && !isEnteredInBorder) 
@@ -295,5 +377,13 @@ public class goToHome : MonoBehaviour
         }
     }
 
-    
+    IEnumerator wait1second()
+    {
+        yield return new WaitForSeconds(1f);
+
+        //speedDownEffect.gameObject.SetActive(false);
+    }
+
+
+
 }

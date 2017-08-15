@@ -53,6 +53,10 @@ public class lifeController : MonoBehaviour
     // 점수 올라가는 effect
     public ParticleSystem plusEffect;
 
+    public static int score;
+
+    //public GameObject scoreNum;
+    //public Animator amt;
     private void Awake()
     {
         
@@ -61,6 +65,8 @@ public class lifeController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        score = 0;
+
         // 각 stage별 목표치
         stage = new int[5];
         stage[0] = 10;
@@ -82,6 +88,9 @@ public class lifeController : MonoBehaviour
         isGameOver = false;
         isEffectEnd = false;
         isCleared = false;
+
+        //amt = scoreNum.GetComponent<Animator>();
+        //amt.enabled = false;
     }
 
     private void NewMethod()
@@ -94,26 +103,31 @@ public class lifeController : MonoBehaviour
     {
 		if(life == 0)
         {
+            
+
             // Game Over 됬을 때 explosion 실행
             if (!isGameOver)
             {
-                gameOverTime = Time.time;
+                //gameOverTime = Time.time;
                 bombEffect.gameObject.SetActive(true);
-
+                StartCoroutine(turnOnGameOverCanvas());
                 isGameOver = true;
+                //gameOverCanvas.SetActive(true);
+                //score = remainedGermNumber;
+
             }
             else
             {
                 // explosion이 끝나면 LeaderBoard로 이동
-                if(!isEffectEnd && gameOverTime + 1f < Time.time)
-                {
-                    bombEffect.gameObject.SetActive(false);
-                    mainCanvas.SetActive(false);
-                    gameOverCanvas.SetActive(true);
+                //if(!isEffectEnd && gameOverTime + 1.5f < Time.time)
+                //{
+                //    bombEffect.gameObject.SetActive(false);
+                //    mainCanvas.SetActive(false);
+                    
 
-                    isEffectEnd = true;
-                    SceneManager.LoadScene("LeaderBoard");
-                }
+                //    isEffectEnd = true;
+                //    SceneManager.LoadScene("LeaderBoard");
+                //}
             }
         }
 
@@ -165,6 +179,20 @@ public class lifeController : MonoBehaviour
         }
 
         mainCanvasGroup.interactable = false;
+
         yield return null;
+    }
+
+    IEnumerator turnOnGameOverCanvas()
+    {
+        yield return new WaitForSeconds(1.5f);
+        gameOverCanvas.SetActive(true);
+        yield return new WaitForSeconds(2f);
+
+        score = remainedGermNumber;
+        bombEffect.gameObject.SetActive(false);
+        mainCanvas.SetActive(false);
+
+        SceneManager.LoadScene("LeaderBoard");
     }
 }

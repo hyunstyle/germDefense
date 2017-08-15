@@ -14,6 +14,10 @@ public class InstantiateMonster : MonoBehaviour {
     public GameObject stage4Mon;
     public GameObject stage5Mon;
 
+    public GameObject goldMon;
+    public GameObject portionMon;
+    public GameObject tornadoMon;
+
     public GameObject parentPanel;
     private float time;
     public float spawnTime;
@@ -70,13 +74,54 @@ public class InstantiateMonster : MonoBehaviour {
                     clone = Instantiate(stage2Mon, parentPanel.transform);
                     break;
                 case 3:
-                    clone = Instantiate(stage3Mon, parentPanel.transform);
+                    float random3 = Random.Range(0, 10);
+                    if (random3 == 3)
+                    {
+                        clone = Instantiate(tornadoMon, parentPanel.transform);
+                        //Debug.Log("럭키3~");
+                    }
+                    else
+                    {
+                        clone = Instantiate(stage3Mon, parentPanel.transform);
+                    }
+
                     break;
                 case 4:
-                    clone = Instantiate(stage4Mon, parentPanel.transform);
+                    float random4 = Random.Range(0, 10);
+                    if (random4 == 3)
+                    {
+                        clone = Instantiate(portionMon, parentPanel.transform);
+                        //Debug.Log("럭키3~");
+                    }
+                    else if(random4 == 4)
+                    {
+                        clone = Instantiate(tornadoMon, parentPanel.transform);
+                    }
+                    else
+                    {
+                        clone = Instantiate(stage4Mon, parentPanel.transform);
+                    }
+                    //clone = Instantiate(stage4Mon, parentPanel.transform);
                     break;
                 case 5:
-                    clone = Instantiate(stage5Mon, parentPanel.transform);
+                    float random5 = Random.Range(0, 10);
+                    if (random5 == 3)
+                    {
+                        clone = Instantiate(goldMon, parentPanel.transform);
+                    }
+                    else if(random5 == 4)
+                    {
+                        clone = Instantiate(portionMon, parentPanel.transform);
+                    }
+                    else if(random5 == 5)
+                    {
+                        clone = Instantiate(tornadoMon, parentPanel.transform);
+                    }
+                    else
+                    {
+                        clone = Instantiate(stage5Mon, parentPanel.transform);
+                    }
+                    //clone = Instantiate(stage5Mon, parentPanel.transform);
                     break;
                 default:
                     break;

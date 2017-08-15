@@ -14,6 +14,7 @@ public class buttonClick : MonoBehaviour
 
     private const int STAGE1 = 1;
     private const int MAINMENU = 0;
+    private const int LEADERBOARD = 7;
 
     private bool isMenuToggled;
 
@@ -40,7 +41,7 @@ public class buttonClick : MonoBehaviour
     // Main과 help로 가는 함수
     public void gotoMain()
     {
-        SceneManager.LoadScene("mainMenu");
+        StartCoroutine(DoFade(MAINMENU, startCanvas)); // SceneManager.LoadScene("mainMenu");
     }
 
     public void gotoHelp()
@@ -76,6 +77,11 @@ public class buttonClick : MonoBehaviour
         settingCanvas.gameObject.SetActive(false);
         Time.timeScale = 1;
         //gameCanvas.interactable = true;
+    }
+
+    public void goToLeaderBoard()
+    {
+        StartCoroutine(DoFade(LEADERBOARD, startCanvas));
     }
 
 

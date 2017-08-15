@@ -32,15 +32,15 @@ public class speedController : MonoBehaviour
     {
         if (lifeController.Instance.currentNum == 5)
         {
-            sceneTime += Time.deltaTime;
+            //sceneTime += Time.deltaTime;
 
-            if (sceneTime > 5f) // 이거랑
-            {
-                speed += 10f; // 이거 고치면 속도 얼마마다 얼만큼 조절할지 가능 ㅅㄱ
+            //if (sceneTime > 5f) // 이거랑
+            //{
+            //    speed += 10f; // 이거 고치면 속도 얼마마다 얼만큼 조절할지 가능 ㅅㄱ
                 
-                Debug.Log("스피드업@@@ " + speed);
-                sceneTime = 0f;
-            }
+            //    Debug.Log("스피드업@@@ " + speed);
+            //    sceneTime = 0f;
+            //}
         }
     }
 }

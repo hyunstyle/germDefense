@@ -11,6 +11,8 @@ public class Timer : MonoBehaviour {
     private float firstXposition;
     private float yPosition;
     private float zPosition;
+
+    public ParticleSystem speedUpEffect;
 	// Use this for initialization
 	void Start ()
     {
@@ -28,9 +30,12 @@ public class Timer : MonoBehaviour {
         {
             timer.gameObject.transform.localScale = new Vector3(xPosition, yPosition, zPosition);
         }
-        else
+        else // 0되면
         {
-
+            speedController.Instance.speed += 5f;
+            StartCoroutine(doSpeedUpEffect());//speedUpEffect.gameObject.SetActive(true);
+            
+            xPosition = firstXposition;
         }
 	}
 
@@ -43,5 +48,14 @@ public class Timer : MonoBehaviour {
         }
 
         yield return null;
+    }
+
+    IEnumerator doSpeedUpEffect()
+    {
+        speedUpEffect.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        speedUpEffect.gameObject.SetActive(false);
     }
 }

@@ -89,9 +89,12 @@
     <Compile Include="Assets\Particle\EffectExamples\Shared\Scripts\GunShoot.cs" />
     <Compile Include="Assets\Particle\EffectExamples\Shared\Scripts\ParticleExamples.cs" />
     <Compile Include="Assets\Particle\EffectExamples\Shared\Scripts\ParticleMenu.cs" />
+    <Compile Include="Assets\Script\DBControl.cs" />
     <Compile Include="Assets\Script\InstantiateMonster.cs" />
+    <Compile Include="Assets\Script\LankDB.cs" />
     <Compile Include="Assets\Script\Timer.cs" />
     <Compile Include="Assets\Script\buttonClick.cs" />
+    <Compile Include="Assets\Script\currentScore.cs" />
     <Compile Include="Assets\Script\goToHome.cs" />
     <Compile Include="Assets\Script\lifeController.cs" />
     <Compile Include="Assets\Script\rotateInhaler.cs" />
