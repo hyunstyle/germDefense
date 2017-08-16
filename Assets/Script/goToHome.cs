@@ -180,6 +180,7 @@ public class goToHome : MonoBehaviour
                 {
                     lifeController.Instance.remainedGermNumber += 5;
                     lifeController.Instance.plusEffect.Emit(5);
+                    lifeController.Instance.remainedGerm.text = lifeController.Instance.remainedGermNumber.ToString();
                 }
                 else
                 {

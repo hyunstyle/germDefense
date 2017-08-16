@@ -70,10 +70,9 @@ public class lifeController : MonoBehaviour
         // 각 stage별 목표치
         stage = new int[5];
         stage[0] = 10;
-        stage[1] = 10;
-        stage[2] = 10;
-        stage[3] = 20;
-        stage[4] = 30;
+        stage[1] = 30;
+        stage[2] = 60;
+        stage[3] = 100;
 
         // 현재 Scene의 index 저장
         currentNum = SceneManager.GetActiveScene().buildIndex;
