@@ -81,6 +81,7 @@ public class buttonClick : MonoBehaviour
 
     public void goToLeaderBoard()
     {
+        lifeController.score = 0;
         StartCoroutine(DoFade(LEADERBOARD, startCanvas));
     }
 
@@ -111,7 +112,10 @@ public class buttonClick : MonoBehaviour
             yield return null;
         }
 
-
+        if(Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
 
         SceneManager.LoadScene(where);
         isStarted = false;

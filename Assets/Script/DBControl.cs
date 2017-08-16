@@ -93,6 +93,7 @@ public class DBControl : MonoBehaviour {
         }
         else // 게임오버 되서 리더보드 갔을 경우
         {
+            Debug.Log("이거실행 " + nowScore.text.ToString());
             mainToLeaderBoard.gameObject.SetActive(false);
             gameOverToLeaderBoard.gameObject.SetActive(true);
         }

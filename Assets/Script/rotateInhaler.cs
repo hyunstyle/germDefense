@@ -77,11 +77,10 @@ public class rotateInhaler : MonoBehaviour
         touchQuadrant = 0;
         oldPos = this.transform.position;
         movingDirection = 0;
-        normalColor = this.transform.GetComponent<SpriteRenderer>().color;
+        normalColor = new Color(255, 255, 255, 255);//this.transform.GetComponent<SpriteRenderer>().color;
+        inhaler.GetComponent<SpriteRenderer>().color = normalColor;
         clickedColor = new Color(173, 173, 255);
         check = 360;
-
-       
 
         Scene currentScene = SceneManager.GetActiveScene();
 
@@ -379,6 +378,7 @@ public class rotateInhaler : MonoBehaviour
 
         
         currentInhaler = this.gameObject;
+        //Debug.Log("마우스다운 " + currentInhaler.transform.GetComponent<SpriteRenderer>().color);
         if (currentInhaler.transform.GetComponent<SpriteRenderer>().color == normalColor)
         {
             this.transform.GetComponent<SpriteRenderer>().color = Color.green;
@@ -394,8 +394,8 @@ public class rotateInhaler : MonoBehaviour
     {
         isRotating = false;
         movingDirection = 0;
-        
 
+        //Debug.Log("마우스업 " + this.transform.GetComponent<SpriteRenderer>().color);
         if (this.transform.GetComponent<SpriteRenderer>().color != Color.red)
         {
             this.transform.GetComponent<SpriteRenderer>().color = normalColor;
